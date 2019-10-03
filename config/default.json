@@ -1,0 +1,4 @@
+{
+    "mongoURI":"mongodb+srv://faisalbasha:yIN0TJs9ULR6EL1y@clusterfaisal-elpww.gcp.mongodb.net/test?retryWrites=true&w=majority",
+    "jwtSecret": "mysecrettoken"
+}
