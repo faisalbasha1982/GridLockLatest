@@ -10,12 +10,14 @@ const TodoListSchema = new Schema({
     },
     title: {
         type: String,
+        required: true
     },
     description: {
-        type: String
+        type: String,
+        required: true
     },
     status: {
-        type: Number
+        type: String,
     },
     date: {
         type: Date,

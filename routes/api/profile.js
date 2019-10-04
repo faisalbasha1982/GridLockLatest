@@ -10,11 +10,30 @@ const { check, validationResult } = require('express-validator/check');
 // @access Private
 router.get('/me',auth,async (req,res)=> { 
     try {
-            const profile = await Profile.findOne({ user: req.user.id}, populate('user',['name','avatar']));
+            const profile = await Profile.findOne({ user: req.user.id});
+            const user = await User.findById(req.user.id);
+
+            let finalResult = {};
+
+            if(user){
+                finalResult = {
+                    "name": user.name,
+                    "email": user.email,
+                    "avatar": user.avatar,
+                    "todolist": profile.todolist
+                }
+            }            
+
+
         if(!profile) {
             return res.status(400).json({ msg:'No Profile for this user' })
         }
-        res.json(profile);
+
+        if(!user) {
+            return res.status(400).json({ msg:'No User found for this profile' })
+        }
+
+        res.json(finalResult);
     }catch(err){
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -30,6 +49,7 @@ router.post('/',[auth,[
         check('todolist','tasks is required').not().isEmpty(),
     ]],
   async  (req,res) => {
+
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array()})
@@ -39,38 +59,58 @@ router.post('/',[auth,[
         todolist
     } = req.body;
 
+    console.log("received todolist:");
+    console.log(todolist);
+
     // build profile object
     const profileFields = { todolist:[] };
+    let todolistFields = {};
 
     profileFields.user = req.user.id;
     var parsedJSON = JSON.parse(JSON.stringify(todolist));
 
+    console.log("parsed JSON");
+    console.log(parsedJSON);
+
     parsedJSON.map((item) => {
+
+        todolistFields.title = item.title;
+        todolistFields.description = item.description;
+        todolistFields.status = item.status;
+
         profileFields.todolist.push({ title: item.title, description: item.description, status: item.status});
     });
 
     try {
 
-        // let profile = Profile.findOne({
-        //     user: req.user.id,
-        // });
+        let profile = await Profile.findOne({
+            user: req.user.id,
+        });
 
-        // if(profile) {
-        //     profile = await Profile.findOneAndUpdate(
-        //         {user: req.user.id},
-        //         { $set: profileFields},
-        //         { new: true}
-        //     );
+        if(profile) {
+            profile = await Profile.findOneAndUpdate(
+                {user: req.user.id},
+                { $set: profileFields},
+                { new: true}
+            );
 
-        //     return res.json(profile);
-        // }
+            return res.json(profile);
+        }
 
         // Create 
         profile = new Profile(profileFields);
-        await profile.save();
-        console.log(profile);
+        await profile.save((error3, response) => {
+            if (error3) {
+                console.error(`Error ${error3}\n${error3.stack}`);                
+            }
+    
+            console.log('Successfully saved profile');
+            process.exit(0);
+          });    
+          
+        // console.log(profile);        
         res.json(profile);
-
+        
     }catch(error){
         console.error(err.message);
         res.status(500).send('Server Error');

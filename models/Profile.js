@@ -7,6 +7,7 @@ const profileSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
+
     todolist: [
         {
             title: {
@@ -16,7 +17,7 @@ const profileSchema = new Schema({
                 type: String
             },
             status: {
-                type: Number
+                type: String
             }
         }
     ],
@@ -26,6 +27,6 @@ const profileSchema = new Schema({
     }    
 });
 
-const Profile = mongoose.model('profile', profileSchema);
+const Profile = mongoose.model('Profile', profileSchema);
 
 module.exports = Profile;

@@ -494,8 +494,10 @@ button {
     margin-top: 8rem;
   }
 
-  .hide-sm {
+  .hide-sm, .hide-smd {
     display: none;
+    padding: 5px;
+    margin: 5px;
   }
 
   /* Text Styles */
@@ -575,3 +577,74 @@ button {
     padding: 0.3rem 0.4rem;
   }
 }
+
+.open ul.dropdown-menu {
+  display: block;
+  border: 0px solid black;
+}
+
+.btn {
+   border: 0px solid black;
+}
+
+.Container {
+  text-align: center;
+  clear:both;  
+}
+
+/* .table {
+  border: 1px solid blue;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.table .thead .trows{
+  display: flex;
+  flex-direction: row;
+  clear: both;
+  border: 1px solid green;
+} */
+
+ .centered{
+        position:absolute;
+        background-color:white;
+        width:400pt;
+        padding: 10px;
+        margin: 10px;
+        left:calc(50% - 200pt);
+        height:150pt;
+    }
+    @media screen and (max-width: 500pt){
+        #centered{
+            width:100%;
+            left:0px;
+        }
+    }
+
+    .hide-sm , .hide-smd {
+       width: 150px;
+       height: 80px;
+       text-align: center;
+       flex-direction: column;
+       align-items: center;
+       justify-content: center;
+       text-align: center;        
+    }
+
+.dropdown-menu {
+  margin-top: 20px;
+}
+  .hide-smd {
+    width: 400pt;
+  }
+
+  .createtodo {
+    float: right;
+    justify-content: right;
+    align-items: right;
+
+  }

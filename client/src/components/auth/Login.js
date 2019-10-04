@@ -29,7 +29,7 @@ const Login = ({ login, isAuthenticated }) => {
         <Fragment>
     <section className="container">
       <h1 className="large text-primary">Sign In</h1>
-      <p className="lead"><i className="fas fa-user"></i>Sign In to your Account!</p>
+      <p className="lead"><i className="fas fa-user"/>{' '}Sign In to your Account!</p>
       <form className="form" onSubmit= {e => onSubmit(e)}>
       
         <div className="form-group">

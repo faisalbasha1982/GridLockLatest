@@ -48,12 +48,18 @@ async (req,res)=> {
                 email,
                 avatar,
                 password
+            });
+
+            let profile = new Profile({
+                user:user,
+                todolist:[]
             })
 
             // encrpyt password using bcrypt
             const salt = await bcrypt.genSalt(10);
             user.password = await bcrypt.hash(password,salt);
             await user.save();
+            await profile.save();
 
             // return jsonwebtoken
             const payload = {
